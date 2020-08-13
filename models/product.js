@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Product = sequelize.define('Product', {
-    operator: {
+    deskripsi: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
           return true;
         },
       },
+    },
+    kode_produk: {
+      type: DataTypes.STRING,
+      allowNull: false
     },
     kelompok: {
       type: DataTypes.STRING,

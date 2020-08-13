@@ -16,8 +16,9 @@ class Product {
       const productTier = await productTierQuery.createProductTier();
 
       const createProductRequest = {
-        operator: req.body.operator,
+        deskripsi: req.body.deskripsi,
         nama_produk: req.body.nama_produk,
+        kode_produk: req.body.kode_produk,
         kelompok: req.body.kelompok,
         denom: req.body.denom,
         nama_biller: req.body.nama_biller,
@@ -31,7 +32,7 @@ class Product {
         data: productResult,
         rc: responseCode.success,
       });
-    } catch {
+    } catch (error) {
       return res.status(httpStatus.internalServerError).json({
         msg: 'ERROR WHILE CREATING PRODUCT',
         data: error.message,
@@ -50,13 +51,13 @@ class Product {
           rc: responseCode.missingParameter,
         });
       }
-      const productResult = await productQuery.findProduct({ status: 'active' });
+      const productResult = await productQuery.findAllProduct();
       return res.status(httpStatus.ok).json({
         msg: 'success returning products',
         data: productResult,
         rc: responseCode.success,
       });
-    } catch {
+    } catch (error) {
       return res.status(httpStatus.internalServerError).json({
         msg: 'PRODUCT NOT FOUND',
         data: error.message,
@@ -78,13 +79,13 @@ class Product {
           rc: responseCode.missingParameter,
         });
       }
-      const productResult = await productQuery.findProduct({ nama_produk: req.query.nama_produk });
+      const productResult = await productQuery.findOneProduct({ nama_produk: req.query.nama_produk });
       return res.status(httpStatus.ok).json({
         msg: 'success returning products',
         data: productResult,
         rc: responseCode.success,
       });
-    } catch {
+    } catch (error) {
       return res.status(httpStatus.internalServerError).json({
         msg: 'PRODUCT NOT FOUND',
         data: error.message,
@@ -115,7 +116,7 @@ class Product {
         data: productResult,
         rc: responseCode.success,
       });
-    } catch {
+    } catch (error) {
       return res.status(httpStatus.internalServerError).json({
         msg: 'ERROR WHILE UPDATING PRODUCR',
         data: error.message,
@@ -149,7 +150,7 @@ class Product {
         data: { productResult, productTierResult },
         rc: responseCode.success,
       });
-    } catch {
+    } catch (error) {
       return res.status(httpStatus.internalServerError).json({
         msg: 'ERROR WHILE DELETING PRODUCT',
         data: error.message,
@@ -161,8 +162,8 @@ class Product {
 
 module.exports = (router) => {
   router.post('/', Product.createProduct);
-  router.get('/', Product.createProduct);
-  router.get('/:nama_produk', Product.createProduct);
-  router.put('/:nama_produk', Product.createProduct);
-  router.delete('/delete', Product.createProduct);
+  router.get('/', Product.findAllProduct);
+  router.get('/:nama_produk', Product.findProductByName);
+  router.put('/:nama_produk', Product.updateProduct);
+  router.delete('/delete', Product.deleteProduct);
 }

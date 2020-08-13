@@ -6,7 +6,7 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const includes = require('lodash/includes');
 const replace = require('lodash/replace');
-const sequelize = require('../configs/db');
+const sequelize = require('../config/db');
 
 const basename = path.basename(__filename);
 const db = {};
