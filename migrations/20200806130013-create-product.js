@@ -8,10 +8,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      operator: {
+      deskripsi: {
         type: Sequelize.STRING
       },
       nama_produk: {
+        type: Sequelize.STRING
+      },
+      kode_produk:{
         type: Sequelize.STRING
       },
       kelompok: {
@@ -27,6 +30,9 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       harga_duitin: {
+        type: Sequelize.INTEGER
+      },
+      productTierId: {
         type: Sequelize.INTEGER
       },
       createdAt: {
