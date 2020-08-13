@@ -1,0 +1,35 @@
+steps:
+
+- name: 'gcr.io/cloud-builders/npm'
+  args: [ 'install' ]
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    echo "Deploying and building branch $BRANCH_NAME @ $REPO_NAME... "
+    case $BRANCH_NAME in
+      master)
+        mv app.prod.yaml app.yaml
+        mv config.template.json config.json
+        sed -i 's|__DB_HOST__|$_DB_HOST|g' config.json
+        sed -i 's|__DB_USER__|$_DB_USER|g' config.json
+        sed -i 's|__DB_PASS__|$_DB_PASS|g' config.json
+        sed -i 's|__DB_NAME__|digital-product|g' config.json
+        sed -i 's|__SERVICE_APIKEY__|$_SERVICE_APIKEY|g' config.json
+        ;;
+      development)
+        mv config.template.json config.json
+        sed -i 's|__DB_HOST__|$_DB_HOST|g' config.json
+        sed -i 's|__DB_USER__|$_DB_USER|g' config.json
+        sed -i 's|__DB_PASS__|$_DB_PASS|g' config.json
+        sed -i 's|__DB_NAME__|digital-product|g' config.json
+        sed -i 's|__SERVICE_APIKEY__|$_SERVICE_APIKEY|g' config.json
+        ;;
+      *)
+        echo "branch $BRANCH_NAME ignored."
+    esac
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['app', 'deploy', '--project', '$PROJECT_ID', '-v', 'duitin-id']

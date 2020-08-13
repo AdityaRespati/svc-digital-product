@@ -1,8 +1,8 @@
 {
-  "DB_NAME":"DB_NAME",
-  "DB_USER":"DB_USER",
-  "DB_HOST":"DB_HOST",
-  "DB_PASS":"DB_PASS",
-  "DB_PORT":"DB_PORT",
-  "SERVICE_APIKEY":"SERVICE_APIKEY"
+  "DB_NAME":"__DB_NAME__",
+  "DB_USER":"__DB_USER__",
+  "DB_HOST":"__DB_HOST__",
+  "DB_PASS":"__DB_PASS__",
+  "DB_PORT":"__DB_PORT__",
+  "SERVICE_APIKEY":"__SERVICE_APIKEY__"
 }
