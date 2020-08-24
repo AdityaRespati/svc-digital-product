@@ -1,4 +1,4 @@
-const { Product } = require('../models');
+const { product } = require('../models');
 
 const productQuery = {
   createProduct: async ({
@@ -12,7 +12,7 @@ const productQuery = {
     harga_duitin,
     productTierId }) => {
     try {
-      const result = await Product.create({
+      const result = await product.create({
         deskripsi,
         nama_produk,
         kode_produk,
@@ -30,7 +30,7 @@ const productQuery = {
   },
   findAllProduct: async () => {
     try {
-      const result = await Product.findAll();
+      const result = await product.findAll();
       return result;
     } catch (error) {
       throw (error)
@@ -38,7 +38,7 @@ const productQuery = {
   },
   findOneProduct: async (filter) => {
     try {
-      const result = await Product.findOne({ where: filter });
+      const result = await product.findOne({ where: filter });
       return result;
     } catch (error) {
       throw (error)
@@ -55,7 +55,7 @@ const productQuery = {
         },
       });
 
-      const result = await Product.findOne({
+      const result = await product.findOne({
         where: {
           nama_produk,
         }
