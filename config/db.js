@@ -8,7 +8,7 @@ const sequelize = new Sequelize(
   {
     host: config.get('DB_HOST'),
     port: config.get('DB_PORT'),
-    dialect: 'postgres',
+    dialect: 'mysql',
     operatorsAliases: Sequelize.Op,
     logging: false,
     pool: {
