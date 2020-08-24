@@ -11,7 +11,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   await queryInterface.bulkInsert('Products', [
+   await queryInterface.bulkInsert('products', [
     {
       "deskripsi": "INDOSAT",
       "kode_produk":"IR100",
@@ -1283,6 +1283,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('Products',null,{})
+    await queryInterface.bulkDelete('products',null,{})
   }
 };
