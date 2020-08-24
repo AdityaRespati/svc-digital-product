@@ -49,7 +49,7 @@ const productQuery = {
     data
   }) => {
     try {
-      await Product.update(data, {
+      await product.update(data, {
         where: {
           nama_produk,
         },
