@@ -36,6 +36,14 @@ const productQuery = {
       throw (error)
     }
   },
+  findProductByFilter: async (query) => {
+    try {
+      const result = await product.findAll({where: query});
+      return result;
+    } catch (error) {
+      throw (error)
+    }
+  },
   findOneProduct: async (filter) => {
     try {
       const result = await product.findOne({ where: filter });
