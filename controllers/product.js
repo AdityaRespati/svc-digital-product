@@ -66,6 +66,23 @@ class Product {
     }
   }
 
+  static async findProductByFilter(req, res) {
+    try {
+      const productResult = await productQuery.findProductByFilter(req.query);
+      return res.status(httpStatus.ok).json({
+        msg: 'success returning products',
+        data: productResult,
+        rc: responseCode.success,
+      });
+    } catch (error) {
+      return res.status(httpStatus.notFound).json({
+        msg: 'PRODUCT NOT FOUND',
+        data: 'please check your query params',
+        rc: httpStatus.notFound
+      });
+    }
+  }
+
   static async findProductByName(req, res) {
     try {
       req.checkQuery({
@@ -86,7 +103,7 @@ class Product {
         rc: responseCode.success,
       });
     } catch (error) {
-      return res.status(httpStatus.internalServerError).json({
+      return res.status(httpStatus.notFound).json({
         msg: 'PRODUCT NOT FOUND',
         data: error.message,
         rc: httpStatus.notFound
@@ -163,6 +180,7 @@ class Product {
 module.exports = (router) => {
   router.post('/', Product.createProduct);
   router.get('/', Product.findAllProduct);
+  router.get('/:filter', Product.findProductByFilter);
   router.get('/:nama_produk', Product.findProductByName);
   router.put('/:nama_produk', Product.updateProduct);
   router.delete('/delete', Product.deleteProduct);
