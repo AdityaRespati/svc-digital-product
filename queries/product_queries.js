@@ -1,4 +1,6 @@
 const { product } = require('../models');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op
 
 const productQuery = {
   createProduct: async ({
@@ -37,8 +39,12 @@ const productQuery = {
     }
   },
   findProductByFilter: async (query) => {
+    const filter = {}
+    for(const prop in query){
+      filter[prop] = {[Op.like]: '%'+ query[prop] + '%'}
+    }
     try {
-      const result = await product.findAll({where: query});
+      const result = await product.findAll({where: filter});
       return result;
     } catch (error) {
       throw (error)
