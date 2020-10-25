@@ -42,6 +42,10 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      user_type: {
+        allowNull: false,
+        type: Sequelize.ENUM(['CONTRIBUTOR', 'PICKER'])
       }
     });
   },

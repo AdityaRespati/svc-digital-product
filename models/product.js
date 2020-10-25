@@ -46,6 +46,10 @@ module.exports = (sequelize, DataTypes) => {
     productTierId: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    user_type: {
+      type: DataTypes.ENUM(['CONTRIBUTOR', 'PICKER']),
+      allowNull: false
     } 
   }, {});
   Product.associate = function (models) {
