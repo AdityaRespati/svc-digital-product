@@ -5,6 +5,17 @@ const productTierQuery = require('../queries/product_tier_queries');
 class Product {
   static async createProduct(req, res) {
     try {
+      req.checkBody({
+        deskripsi: { notEmpty: true, errorMessage: 'deskripsi field is required' },
+        nama_produk: { notEmpty: true, errorMessage: 'nama_produk field is required' },
+        kode_produk: { notEmpty: true, errorMessage: 'kode_produk field is required' },
+        kelompok: { notEmpty: true, errorMessage: 'kelompok field is required' },
+        denom: { notEmpty: true, errorMessage: 'denom field is required' },
+        nama_biller: { notEmpty: true, errorMessage: 'nama_biller field is required' },
+        harga_biller: { notEmpty: true, errorMessage: 'harga_biller field is required' },
+        harga_duitin: { notEmpty: true, errorMessage: 'harga_duitin field is required' },
+        user_type: { notEmpty: true, errorMessage: 'user_type field is required' }
+      })
       const errors = req.validationErrors();
       if (errors) {
         return res.status(httpStatus.forbidden).json({
@@ -24,7 +35,8 @@ class Product {
         nama_biller: req.body.nama_biller,
         harga_biller: req.body.harga_biller,
         harga_duitin: req.body.harga_duitin,
-        productTierId: productTier.id
+        productTierId: productTier.id,
+        user_type: req.body.user_type,
       };
       const productResult = await productQuery.createProduct(createProductRequest);
       return res.status(httpStatus.ok).json({
@@ -43,6 +55,9 @@ class Product {
 
   static async findAllProduct(req, res) {
     try {
+      req.checkBody({
+        user_type: { notEmpty: true, errorMessage: 'user_type field is required' }
+      });
       const errors = req.validationErrors();
       if (errors) {
         return res.status(httpStatus.forbidden).json({
@@ -51,7 +66,7 @@ class Product {
           rc: responseCode.missingParameter,
         });
       }
-      const productResult = await productQuery.findAllProduct();
+      const productResult = await productQuery.findAllProduct(req.body.user_type);
       return res.status(httpStatus.ok).json({
         msg: 'success returning products',
         data: productResult,
@@ -68,7 +83,22 @@ class Product {
 
   static async findProductByFilter(req, res) {
     try {
-      const productResult = await productQuery.findProductByFilter(req.query);
+      req.checkBody({
+        user_type: { notEmpty: true, errorMessage: 'user_type field is required' }
+      });
+      const errors = req.validationErrors();
+      if (errors) {
+        return res.status(httpStatus.forbidden).json({
+          success: false,
+          msg: errors,
+          rc: responseCode.missingParameter,
+        });
+      }
+      const queryOptions = {
+        user_type: req.body.user_type,
+        ...req.query
+      }
+      const productResult = await productQuery.findProductByFilter(queryOptions);
       return res.status(httpStatus.ok).json({
         msg: 'success returning products',
         data: productResult,
@@ -88,6 +118,9 @@ class Product {
       req.checkQuery({
         nama_produk: { notEmpty: true, errorMessage: 'nama_produk field is required' },
       });
+      req.checkBody({
+        user_type: { notEmpty: true, errorMessage: 'user_type field is required' }
+      });
       const errors = req.validationErrors();
       if (errors) {
         return res.status(httpStatus.forbidden).json({
@@ -96,7 +129,10 @@ class Product {
           rc: responseCode.missingParameter,
         });
       }
-      const productResult = await productQuery.findOneProduct({ nama_produk: req.query.nama_produk });
+      const productResult = await productQuery.findOneProduct({ 
+        nama_produk: req.query.nama_produk,
+        user_type: req.body.user_type 
+      });
       return res.status(httpStatus.ok).json({
         msg: 'success returning products',
         data: productResult,
@@ -116,6 +152,9 @@ class Product {
       req.checkQuery({
         nama_produk: { notEmpty: true, errorMessage: 'nama_produk field is required' },
       });
+      req.checkBody({
+        user_type: { notEmpty: true, errorMessage: 'user_type field is required' }
+      });
       const errors = req.validationErrors();
       if (errors) {
         return res.status(httpStatus.forbidden).json({
@@ -126,6 +165,7 @@ class Product {
       }
       const productResult = await productQuery.updateProduct({
         nama_produk: req.query.nama_produk,
+        user_type: req.body.user_type,
         data: req.body
       });
       return res.status(httpStatus.ok).json({
