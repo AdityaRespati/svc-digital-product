@@ -1,4 +1,6 @@
-const { Product } = require('../models');
+const { product } = require('../models');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op
 
 const productQuery = {
   createProduct: async ({
@@ -10,9 +12,11 @@ const productQuery = {
     nama_biller,
     harga_biller,
     harga_duitin,
-    productTierId }) => {
+    productTierId,
+    user_type
+  }) => {
     try {
-      const result = await Product.create({
+      const result = await product.create({
         deskripsi,
         nama_produk,
         kode_produk,
@@ -21,16 +25,31 @@ const productQuery = {
         nama_biller,
         harga_biller,
         harga_duitin,
-        productTierId
+        productTierId,
+        user_type
       })
       return result;
     } catch (error) {
       throw (error)
     }
   },
-  findAllProduct: async () => {
+  findAllProduct: async (user_type) => {
     try {
-      const result = await Product.findAll();
+      const result = await product.findAll({
+        where: { user_type }
+      });
+      return result;
+    } catch (error) {
+      throw (error)
+    }
+  },
+  findProductByFilter: async (query) => {
+    const filter = {}
+    for (const prop in query) {
+      filter[prop] = { [Op.like]: '%' + query[prop] + '%' }
+    }
+    try {
+      const result = await product.findAll({ where: filter });
       return result;
     } catch (error) {
       throw (error)
@@ -38,7 +57,7 @@ const productQuery = {
   },
   findOneProduct: async (filter) => {
     try {
-      const result = await Product.findOne({ where: filter });
+      const result = await product.findOne({ where: filter });
       return result;
     } catch (error) {
       throw (error)
@@ -46,18 +65,21 @@ const productQuery = {
   },
   updateProduct: async ({
     nama_produk,
+    user_type,
     data
   }) => {
     try {
-      await Product.update(data, {
+      await product.update(data, {
         where: {
           nama_produk,
+          user_type
         },
       });
 
-      const result = await Product.findOne({
+      const result = await product.findOne({
         where: {
           nama_produk,
+          user_type
         }
       });
       return result;

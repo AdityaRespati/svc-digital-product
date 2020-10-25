@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Product = sequelize.define('Product', {
+  const Product = sequelize.define('product', {
     deskripsi: {
       type: DataTypes.STRING,
       allowNull: false
@@ -45,6 +45,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     productTierId: {
       type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    user_type: {
+      type: DataTypes.ENUM(['CONTRIBUTOR', 'PICKER']),
       allowNull: false
     } 
   }, {});
