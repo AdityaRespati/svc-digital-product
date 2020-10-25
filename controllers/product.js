@@ -55,7 +55,7 @@ class Product {
 
   static async findAllProduct(req, res) {
     try {
-      req.checkBody({
+      req.checkQuery({
         user_type: { notEmpty: true, errorMessage: 'user_type field is required' }
       });
       const errors = req.validationErrors();
@@ -66,7 +66,7 @@ class Product {
           rc: responseCode.missingParameter,
         });
       }
-      const productResult = await productQuery.findAllProduct(req.body.user_type);
+      const productResult = await productQuery.findAllProduct(req.query.user_type);
       return res.status(httpStatus.ok).json({
         msg: 'success returning products',
         data: productResult,
@@ -83,7 +83,7 @@ class Product {
 
   static async findProductByFilter(req, res) {
     try {
-      req.checkBody({
+      req.checkQuery({
         user_type: { notEmpty: true, errorMessage: 'user_type field is required' }
       });
       const errors = req.validationErrors();
@@ -95,7 +95,6 @@ class Product {
         });
       }
       const queryOptions = {
-        user_type: req.body.user_type,
         ...req.query
       }
       const productResult = await productQuery.findProductByFilter(queryOptions);
@@ -117,8 +116,6 @@ class Product {
     try {
       req.checkQuery({
         nama_produk: { notEmpty: true, errorMessage: 'nama_produk field is required' },
-      });
-      req.checkBody({
         user_type: { notEmpty: true, errorMessage: 'user_type field is required' }
       });
       const errors = req.validationErrors();
@@ -131,7 +128,7 @@ class Product {
       }
       const productResult = await productQuery.findOneProduct({ 
         nama_produk: req.query.nama_produk,
-        user_type: req.body.user_type 
+        user_type: req.query.user_type 
       });
       return res.status(httpStatus.ok).json({
         msg: 'success returning products',
@@ -151,8 +148,6 @@ class Product {
     try {
       req.checkQuery({
         nama_produk: { notEmpty: true, errorMessage: 'nama_produk field is required' },
-      });
-      req.checkBody({
         user_type: { notEmpty: true, errorMessage: 'user_type field is required' }
       });
       const errors = req.validationErrors();
@@ -165,7 +160,7 @@ class Product {
       }
       const productResult = await productQuery.updateProduct({
         nama_produk: req.query.nama_produk,
-        user_type: req.body.user_type,
+        user_type: req.query.user_type,
         data: req.body
       });
       return res.status(httpStatus.ok).json({
