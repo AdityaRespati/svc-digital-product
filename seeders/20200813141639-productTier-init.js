@@ -784,7 +784,6 @@ module.exports = {
         "updatedAt": new Date()
       },
       {
-        "id": 331,
         "status": "active",
         "createdAt": new Date(),
         "updatedAt": new Date()
@@ -1118,7 +1117,7 @@ module.exports = {
         "status": "active",
         "createdAt": new Date(),
         "updatedAt": new Date()
-      }
+      },
     ])
   },
 

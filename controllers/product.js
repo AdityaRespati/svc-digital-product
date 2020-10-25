@@ -95,6 +95,7 @@ class Product {
         });
       }
       const queryOptions = {
+        user_type: req.body.user_type,
         ...req.query
       }
       const productResult = await productQuery.findProductByFilter(queryOptions);
@@ -116,6 +117,9 @@ class Product {
     try {
       req.checkQuery({
         nama_produk: { notEmpty: true, errorMessage: 'nama_produk field is required' },
+        user_type: { notEmpty: true, errorMessage: 'user_type field is required' }
+      });
+      req.checkBody({
         user_type: { notEmpty: true, errorMessage: 'user_type field is required' }
       });
       const errors = req.validationErrors();
@@ -148,6 +152,9 @@ class Product {
     try {
       req.checkQuery({
         nama_produk: { notEmpty: true, errorMessage: 'nama_produk field is required' },
+        user_type: { notEmpty: true, errorMessage: 'user_type field is required' }
+      });
+      req.checkBody({
         user_type: { notEmpty: true, errorMessage: 'user_type field is required' }
       });
       const errors = req.validationErrors();
