@@ -130,9 +130,9 @@ class Product {
           rc: responseCode.missingParameter,
         });
       }
-      const productResult = await productQuery.findOneProduct({ 
+      const productResult = await productQuery.findOneProduct({
         nama_produk: req.query.nama_produk,
-        user_type: req.query.user_type 
+        user_type: req.query.user_type
       });
       return res.status(httpStatus.ok).json({
         msg: 'success returning products',
@@ -217,10 +217,42 @@ class Product {
       });
     }
   }
+  static async getDetailProduct(req, res) {
+    try {
+      req.checkQuery({
+        kode_produk: { notEmpty: true, errorMessage: 'nama_produk field is required' },
+        user_type: { notEmpty: true, errorMessage: 'user_type field is required' }
+      });
+      const errors = req.validationErrors();
+      if (errors) {
+        return res.status(httpStatus.forbidden).json({
+          success: false,
+          msg: errors,
+          rc: responseCode.missingParameter,
+        });
+      }
+      const productResult = await productQuery.findOneProduct({
+        kode_produk: req.query.kode_produk,
+        user_type: req.query.user_type
+      });
+      return res.status(httpStatus.ok).json({
+        msg: 'success returning products',
+        data: productResult,
+        rc: responseCode.success,
+      });
+    } catch (error) {
+      return res.status(httpStatus.internalServerError).json({
+        msg: 'ERROR WHILE GET PRODUCT',
+        data: error.message,
+        rc: httpStatus.internalServerError
+      });
+    }
+  }
 }
 
 module.exports = (router) => {
   router.post('/', Product.createProduct);
+  router.get('/detail', Product.getDetailProduct);
   router.get('/', Product.findAllProduct);
   router.get('/:filter', Product.findProductByFilter);
   router.get('/:nama_produk', Product.findProductByName);
