@@ -5,7 +5,7 @@ nconf
   .env(['NODE_ENV', 'PORT'])
   .file({ file: './config.json' })
   .defaults({
-    PORT: 3001,
+    PORT: 3000,
   });
 
 module.exports = nconf;
